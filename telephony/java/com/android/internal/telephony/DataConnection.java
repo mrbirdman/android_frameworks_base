@@ -422,7 +422,7 @@ public abstract class DataConnection extends HierarchicalStateMachine {
                 if (response.length > 2) {
                     ipAddress = response[2];
                     String prefix = "net." + interfaceName + ".";
-                    String sgsprefix = "net.cdma."
+                    String sgsprefix = "net.cdma.";
 		    gatewayAddress = SystemProperties.get(prefix + "gw");
                     dnsServers[0] = SystemProperties.get(prefix + "dns1");
                     dnsServers[1] = SystemProperties.get(prefix + "dns2");
