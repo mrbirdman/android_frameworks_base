@@ -422,9 +422,16 @@ public abstract class DataConnection extends HierarchicalStateMachine {
                 if (response.length > 2) {
                     ipAddress = response[2];
                     String prefix = "net." + interfaceName + ".";
-                    gatewayAddress = SystemProperties.get(prefix + "gw");
+                    String sgsprefix = "net.cdma."
+		    gatewayAddress = SystemProperties.get(prefix + "gw");
                     dnsServers[0] = SystemProperties.get(prefix + "dns1");
                     dnsServers[1] = SystemProperties.get(prefix + "dns2");
+                if (gatewayAddress = null) {
+                    ipAddress = SystemProperties.get(sgsprefix + "local-ip");
+		    gatewayAddress = SystemProperties.get(sgsprefix + "remote-ip");
+                    dnsServers[0] = SystemProperties.get(sgsprefix + "dns1");
+                    dnsServers[1] = SystemProperties.get(sgsprefix + "dns2");
+                    }
                     if (DBG) {
                         log("interface=" + interfaceName + " ipAddress=" + ipAddress
                             + " gateway=" + gatewayAddress + " DNS1=" + dnsServers[0]
@@ -443,6 +450,7 @@ public abstract class DataConnection extends HierarchicalStateMachine {
                 result = SetupResult.ERR_Other;
             }
         }
+	if (result == SetupResult.SUCCESS) SystemProperties.set("net.cdma.data_ready", "true");
 
         if (DBG) log("DataConnection setup result='" + result + "' on cid=" + cid);
         return result;
