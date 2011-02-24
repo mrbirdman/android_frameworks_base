@@ -426,7 +426,7 @@ public abstract class DataConnection extends HierarchicalStateMachine {
 		    gatewayAddress = SystemProperties.get(prefix + "gw");
                     dnsServers[0] = SystemProperties.get(prefix + "dns1");
                     dnsServers[1] = SystemProperties.get(prefix + "dns2");
-                if (gatewayAddress = null) {
+                if (gatewayAddress == null) {
                     ipAddress = SystemProperties.get(sgsprefix + "local-ip");
 		    gatewayAddress = SystemProperties.get(sgsprefix + "remote-ip");
                     dnsServers[0] = SystemProperties.get(sgsprefix + "dns1");

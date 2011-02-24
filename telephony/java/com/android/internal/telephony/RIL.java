@@ -2242,7 +2242,7 @@ public final class RIL extends BaseCommands implements CommandsInterface {
             }
         }
 
-        if (error != 0 || !(error == -1 && rr.mRequest == RIL_REQUEST_SMS)) {
+        if (error != 0 && !(error == -1 && rr.mRequest == RIL_REQUEST_SEND_SMS)) {
                 rr.onError(error, ret);
                 rr.release();
                 return;
