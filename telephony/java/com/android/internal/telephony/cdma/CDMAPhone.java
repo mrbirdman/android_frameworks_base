@@ -882,10 +882,19 @@ public class CDMAPhone extends PhoneBase {
             if (DBG) Log.d(LOG_TAG, "needsOtaServiceProvisioning: illegal cdmaMin='"
                                     + cdmaMin + "' assume provisioning needed.");
             needsProvisioning = true;
+            if (SystemProperties.get("net.cdma.provision").equals("false")) {
+               needsProvisioning = false;
+            }
+            if (SystemProperties.get("net.cdma.provision").equals("true")) {
+               needsProvisioning = true;
+            }
         } else {
             needsProvisioning = (cdmaMin.equals(UNACTIVATED_MIN_VALUE)
                     || cdmaMin.substring(0,6).equals(UNACTIVATED_MIN2_VALUE))
                     || SystemProperties.getBoolean("test_cdma_setup", false);
+            if (SystemProperties.get("net.cdma.provision").equals("false")) {
+               SystemProperties.set("net.cdma.provision", "true");
+            }
         }
         if (DBG) Log.d(LOG_TAG, "needsOtaServiceProvisioning: ret=" + needsProvisioning);
         return needsProvisioning;
@@ -1016,7 +1025,9 @@ public class CDMAPhone extends PhoneBase {
                 }
                 String[] respId = (String[])ar.result;
                 mEsn  =  respId[2];
-                mMeid =  respId[3];
+                SystemProperties.set("ro.ril.MEID", respId[3]);
+                mMeid =  SystemProperties.get("ro.ril.MEID");
+
             }
             break;
 
