@@ -410,7 +410,7 @@ final class CdmaServiceStateTracker extends ServiceStateTracker {
 
             if (ar.exception == null) {
                 String cdmaSubscription[] = (String[])ar.result;
-                if (cdmaSubscription != null && cdmaSubscription.length >= 5) {
+                if (cdmaSubscription != null && cdmaSubscription.length >= 4) {
                     mMdn = cdmaSubscription[0];
                     if (cdmaSubscription[1] != null) {
                         String[] sid = cdmaSubscription[1].split(",");
@@ -439,6 +439,10 @@ final class CdmaServiceStateTracker extends ServiceStateTracker {
                     Log.d(LOG_TAG,"GET_CDMA_SUBSCRIPTION NID=" + cdmaSubscription[2] );
                     mMin = cdmaSubscription[3];
                     mPrlVersion = cdmaSubscription[4];
+                    if (TextUtils.isEmpty(mPrlVersion)) {
+                       String[] prl = (SystemProperties.get("ril.prl_ver_1").split(":"));
+                       mPrlVersion = prl[1];
+                    }
                     Log.d(LOG_TAG,"GET_CDMA_SUBSCRIPTION MDN=" + mMdn);
                     //Notify apps subscription info is ready
                     if (cdmaForSubscriptionInfoReadyRegistrants != null) {
@@ -712,10 +716,10 @@ final class CdmaServiceStateTracker extends ServiceStateTracker {
                             baseStationId = Integer.parseInt(states[4]);
                         }
                         if (states[5] != null) {
-                            baseStationLatitude = Integer.parseInt(states[5]);
+                            baseStationLatitude = Integer.parseInt(states[5], 16);
                         }
                         if (states[6] != null) {
-                            baseStationLongitude = Integer.parseInt(states[6]);
+                            baseStationLongitude = Integer.parseInt(states[6], 16);
                         }
                         // Some carriers only return lat-lngs of 0,0
                         if (baseStationLatitude == 0 && baseStationLongitude == 0) {
@@ -723,19 +727,19 @@ final class CdmaServiceStateTracker extends ServiceStateTracker {
                             baseStationLongitude = CdmaCellLocation.INVALID_LAT_LONG;
                         }
                         if (states[7] != null) {
-                            cssIndicator = Integer.parseInt(states[7]);
+                            cssIndicator = Integer.parseInt(states[7], 16);
                         }
                         if (states[8] != null) {
-                            systemId = Integer.parseInt(states[8]);
+                            systemId = Integer.parseInt(states[8], 16);
                         }
                         if (states[9] != null) {
-                            networkId = Integer.parseInt(states[9]);
+                            networkId = Integer.parseInt(states[9], 16);
                         }
                         if (states[10] != null) {
-                            roamingIndicator = Integer.parseInt(states[10]);
+                            roamingIndicator = Integer.parseInt(states[10], 16);
                         }
                         if (states[11] != null) {
-                            systemIsInPrl = Integer.parseInt(states[11]);
+                            systemIsInPrl = Integer.parseInt(states[11], 16);
                         }
                         if (states[12] != null) {
                             defaultRoamingIndicator = Integer.parseInt(states[12]);
