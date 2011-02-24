@@ -25,7 +25,7 @@ import android.telephony.PhoneNumberUtils;
  */
 public class DriverCall implements Comparable {
     static final String LOG_TAG = "RILB";
-
+    static final String NO_VIDEO = "no_video";
     public enum State {
         ACTIVE,
         HOLDING,
@@ -109,10 +109,13 @@ public class DriverCall implements Comparable {
                 + (isMpty ? "conf" : "norm") + ","
                 + (isMT ? "mt" : "mo") + ","
                 + als + ","
+                + NO_VIDEO + "," 
                 + (isVoice ? "voc" : "nonvoc") + ","
                 + (isVoicePrivacy ? "evp" : "noevp") + ","
-                /*+ "number=" + number */ + ",cli=" + numberPresentation + ","
-                /*+ "name="+ name */ + "," + namePresentation;
+                + "number=" + number
+                + ",cli=" + numberPresentation + ","
+                + "name="+ name
+                + "," + namePresentation;
     }
 
     public static State
