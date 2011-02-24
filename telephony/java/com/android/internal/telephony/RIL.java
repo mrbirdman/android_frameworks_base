@@ -2379,6 +2379,17 @@ public final class RIL extends BaseCommands implements CommandsInterface {
             case RIL_UNSOL_OEM_HOOK_RAW: ret = responseRaw(p); break;
             case RIL_UNSOL_RINGBACK_TONE: ret = responseInts(p); break;
             case RIL_UNSOL_RESEND_INCALL_MUTE: ret = responseVoid(p); break;
+            case RIL_UNSOL_HSDPA_STATE_CHANGED: ret = responseVoid(p); break;
+
+            /*
+             * Add Samsung modes
+             */
+
+           case RIL_UNSOL_O2_HOME_ZONE_INFO: ret = responseVoid(p); break;
+           case RIL_UNSOL_SAMSUNG_UNKNOWN_MAGIC_REQUEST: ret = responseVoid(p); break;
+           case RIL_UNSOL_STK_SEND_SMS_RESULT: ret = responseVoid(p); break;
+           case RIL_UNSOL_DEVICE_READY_NOTI: ret = responseVoid(p); break;
+           case RIL_UNSOL_SAMSUNG_UNKNOWN_MAGIC_REQUEST_2: ret = responseVoid(p); break;
 
             default:
                 throw new RuntimeException("Unrecognized unsol response: " + response);
@@ -2401,6 +2412,12 @@ public final class RIL extends BaseCommands implements CommandsInterface {
                 if (RILJ_LOGD) unsljLog(response);
 
                 mCallStateRegistrants
+                    .notifyRegistrants(new AsyncResult(null, null, null));
+            break;
+            case RIL_UNSOL_HSDPA_STATE_CHANGED:
+                if (RILJ_LOGD) unsljLog(response);
+
+                mNetworkStateRegistrants
                     .notifyRegistrants(new AsyncResult(null, null, null));
             break;
             case RIL_UNSOL_RESPONSE_NETWORK_STATE_CHANGED:
